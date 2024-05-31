@@ -95,9 +95,8 @@ class N_gram:
 
         
 #Quick test
-three_gram = N_gram(2)
-sentences = read_file('c:/Users/erwan/Documents/ENPC/2A/PRAMA/PRAMA_Projet/toy_corpus/new_corpus_10000000.txt')
+three_gram = N_gram(3)
+sentences = read_file('c:/Users/erwan/Documents/ENPC/2A/PRAMA/PRAMA_Projet/toy_corpus/new_corpus_5000000_fixed.txt')
 three_gram.train(sentences)
-print(three_gram.prob_dict)
-
-print(three_gram.get_prob('il', 'est'))
+#print(three_gram.prob_dict)
+print("OK")

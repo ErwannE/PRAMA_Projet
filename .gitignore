@@ -1,2 +1,4 @@
 europarl-v6.fr-en.fr
 toy_corpus/
+database.txt
+__pycache__/
