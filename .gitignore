@@ -2,3 +2,4 @@ europarl-v6.fr-en.fr
 toy_corpus/
 database.txt
 __pycache__/
+create_toy_corpus.py
