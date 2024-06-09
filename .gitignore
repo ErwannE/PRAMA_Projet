@@ -3,3 +3,5 @@ toy_corpus/
 database.txt
 __pycache__/
 create_toy_corpus.py
+test_erwann.py
+cleaned_corpus.txt
