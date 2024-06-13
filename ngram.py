@@ -6,7 +6,7 @@ from math import log10
 
 def read_file(file_path):
     # Ouvrir le fichier en mode lecture
-    with open(file_path, 'r') as file:
+    with open(file_path, 'r', encoding='utf-8') as file:
         # Lire toutes les lignes dans le fichier
         lines = file.readlines()
 
@@ -32,7 +32,7 @@ class N_gram:
         self.n = n
         self.prob_dict = {}
         self.min_prob = 1.0 #used when we get 0 prob
-        self.dictionary = defaultdict(lambda: 1)
+        self.dictionary = defaultdict(int)
         self.longest_word_length = 0
         self.cnt = 0
 
@@ -83,20 +83,32 @@ class N_gram:
     def get_prob(self, context, cur_word):
         if context not in self.prob_dict or cur_word not in self.prob_dict[context]:
             # print("in:",cur_word)
-            return log10(0.001)+self.min_prob
+            return 0.001*log10(self.dictionary[cur_word] + 1)
         # print(self.prob_dict[context][cur_word])
-        return log10(self.prob_dict[context][cur_word])
+        return log10(self.prob_dict[context][cur_word]/0.001)
 
- #Get probability with smoothing
-    def get_s_prob(self, context, cur_word):
-        if context not in self.prob_dict or cur_word not in self.prob_dict[context]:
-            return log10(0.6*(self.dictionary[cur_word]/self.cnt))
-        return log10(0.6*self.prob_dict[context][cur_word]-0.00001+0.4*(self.dictionary[cur_word]/self.cnt))
 
-        
-#Quick test
+"""
+import pickle
+
+# Créer une instance de N_gram
 three_gram = N_gram(3)
-sentences = read_file('c:/Users/erwan/Documents/ENPC/2A/PRAMA/PRAMA_Projet/toy_corpus/new_corpus_5000000_fixed.txt')
+sentences = read_file('c:/Users/erwan/Documents/ENPC/2A/PRAMA/PRAMA_Projet/toy_corpus/cleaned_text_100000000.txt')
 three_gram.train(sentences)
-#print(three_gram.prob_dict)
+
+# Sauvegarder l'instance dans un fichier
+with open('c:/Users/erwan/Documents/ENPC/2A/PRAMA/PRAMA_Projet/three_gram_100000000.pkl', 'wb') as f:
+    pickle.dump(three_gram, f)
+
 print("OK")
+
+with open('c:/Users/erwan/Documents/ENPC/2A/PRAMA/PRAMA_Projet/three_gram_100000000.pkl', 'rb') as f:
+    loaded_three_gram = pickle.load(f)
+
+print("loaeded successfully")
+
+print(loaded_three_gram.get_s_prob('le', 'jrjgj'))
+print(loaded_three_gram.get_s_prob('le', "gang"))
+print(loaded_three_gram.get_s_prob('le', 'parlement'))
+"""
+      
