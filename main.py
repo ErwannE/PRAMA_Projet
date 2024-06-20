@@ -3,9 +3,9 @@ from data_preparation_function import *
 import pickle
 print("loading ngram...")
 # PARAMETER
-taille_ngram = 3
-path_corpus = 'c:/Users/erwan/Documents/ENPC/2A/PRAMA/PRAMA_Projet/toy_corpus\cleaned_text_10000000.txt'
-with open('c:/Users/erwan/Documents/ENPC/2A/PRAMA/PRAMA_Projet/three_gram.pkl', 'rb') as f:
+n = 3
+path_corpus = 'c:/Users/erwan/Documents/ENPC/2A/PRAMA/PRAMA_Projet/three_gram.pkl'
+with open(path_corpus, 'rb') as f:
     loaded_three_gram = pickle.load(f)
     print("ngram loaded")
 class Guess:
@@ -18,21 +18,26 @@ class Guess:
         words = text.split()
         self.size = len(words)
         self.last_word = words[-1]
+        self.text_sequence = ' '.join(words[-taille_ngram:-1])
         self.context = ''.join(words[-taille_ngram:-1])
 
-    def correct(self):
-        prob = -1000
-        best_word = self.last_word
-        for word in loaded_three_gram.dictionary.keys():
-            prob_temp = loaded_three_gram.get_prob(self.context, word)
-            if prob_temp > prob:
-                print(f"word: {word}, prob: {prob_temp}")
-                prob = prob_temp
-                best_word = word
-        return best_word
+    def correct(self, algo="NGRAM"):
+        if algo == "NGRAM"
+            prob = -1000
+            best_word = self.last_word
+            for word in loaded_three_gram.dictionary.keys():
+                prob_temp = loaded_three_gram.get_prob(self.context, word)
+                if prob_temp > prob:
+                    print(f"word: {word}, prob: {prob_temp}")
+                    prob = prob_temp
+                    best_word = word
+            return best_word
+        
+        else: 
+            print("MODEL NOT FOUND")
 
 def guess_sentence(text):
-    for i in range(3, len(text.split())):
+    for i in range(n, len(text.split())):
         sentence = " ".join(text.split()[:i])
         print(f"Sentence: {sentence}")
         guess = Guess(sentence)
